@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useNavigate } from "react-router-dom";
 
 import Logo from "../../olx-logo.png";
 import "./Signup.css";
 import { FirebaseContext } from "../../store/firebaseContext";
 
 export default function Signup() {
-  const history=useHistory()
+  const Navigate = useNavigate();
   const [Username, setUserName] = useState("");
   const [Email, setEmail] = useState("");
   const [phoneNumber, setphoneNumber] = useState("");
@@ -22,14 +22,14 @@ export default function Signup() {
         result.user.updateProfile({ displayName: Username }).then(() => {
           firebase
             .firestore()
-            .collection("users")
+            .collection("newuser")
             .add({
               id: result.user.uid,
               userName: Username,
               phoneNumber: phoneNumber,
             })
             .then(() => {
-              history.push("/login");
+              Navigate("/login");
             });
         });
       });
