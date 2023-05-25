@@ -1,20 +1,39 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 
-import Logo from '../../olx-logo.png';
-import './Signup.css';
-import { FirebaseContext } from '../../store/firebaseContext';
+import Logo from "../../olx-logo.png";
+import "./Signup.css";
+import { FirebaseContext } from "../../store/firebaseContext";
 
 export default function Signup() {
-  const [Username,setUserName]=useState('')
-  const [Email,setEmail]=useState('')
-  const [phoneNumber,setphoneNumber]=useState('')
-  const [password,setpassword]=useState('')
-  const {firebase}=useContext(FirebaseContext)
-  const handleSubmit=(e)=>{
-    e.preventDefault()
-console.log(firebase);
-
-  }
+  const history=useHistory()
+  const [Username, setUserName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [phoneNumber, setphoneNumber] = useState("");
+  const [password, setpassword] = useState("");
+  const { firebase } = useContext(FirebaseContext);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(firebase);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(Email, password)
+      .then((result) => {
+        result.user.updateProfile({ displayName: Username }).then(() => {
+          firebase
+            .firestore()
+            .collection("users")
+            .add({
+              id: result.user.uid,
+              userName: Username,
+              phoneNumber: phoneNumber,
+            })
+            .then(() => {
+              history.push("/login");
+            });
+        });
+      });
+  };
   return (
     <div>
       <div className="signupParentDiv">
@@ -27,7 +46,7 @@ console.log(firebase);
             type="text"
             id="fname"
             value={Username}
-            onChange={(e)=>setUserName(e.target.value)}
+            onChange={(e) => setUserName(e.target.value)}
             name="name"
             defaultValue="John"
           />
@@ -39,7 +58,7 @@ console.log(firebase);
             type="email"
             id="fname"
             value={Email}
-            onChange={(e)=>  setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             name="email"
             defaultValue="John"
           />
@@ -51,7 +70,7 @@ console.log(firebase);
             type="number"
             id="lname"
             value={phoneNumber}
-            onChange={(e)=>setphoneNumber(e.target.value)}
+            onChange={(e) => setphoneNumber(e.target.value)}
             name="phone"
             defaultValue="Doe"
           />
@@ -63,7 +82,7 @@ console.log(firebase);
             type="password"
             id="lname"
             value={password}
-            onChange={(e)=>setpassword(e.target.value)}
+            onChange={(e) => setpassword(e.target.value)}
             name="password"
             defaultValue="Doe"
           />
