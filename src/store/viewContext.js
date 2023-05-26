@@ -1,15 +1,13 @@
-import { useContext, useState } from "react";
+import { createContext, useState} from "react";
 
+export const ViewContext = createContext(null);
 
-
-export const viewContext=useContext(null)
-const [viewDetails,setViewDetails]=useState('')
-
-function post ({children}){
-    return (
-        <viewContext value={{viewDetails,setViewDetails}}>
-            {children}
-        </viewContext>
-    )
+function Post({ children }) {
+    const [viewDetails, setViewDetails] = useState();
+  return (
+    <ViewContext.Provider value={{ viewDetails, setViewDetails }}>
+      {children}
+    </ViewContext.Provider>
+  );
 }
-export default post
+export default Post;
