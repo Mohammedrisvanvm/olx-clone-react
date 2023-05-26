@@ -3,7 +3,7 @@ import {useNavigate } from "react-router-dom";
 
 import Logo from "../../olx-logo.png";
 import "./Signup.css";
-import { FirebaseContext } from "../../store/firebaseContext";
+import { FirebaseContext } from "../../store/Context";
 
 export default function Signup() {
   const Navigate = useNavigate();
