@@ -7,6 +7,8 @@ import Arrow from '../../assets/Arrow';
 import SellButton from '../../assets/SellButton';
 import SellButtonPlus from '../../assets/SellButtonPlus';
 function Header() {
+
+  
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
