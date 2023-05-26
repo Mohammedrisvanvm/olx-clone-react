@@ -4,13 +4,15 @@ import Heart from "../../assets/Heart";
 import "./Post.css";
 import { FirebaseContext } from "../../store/Context";
 import { useNavigate } from "react-router-dom";
-import { viewContext } from "../../store/viewContext";
+import { ViewContext } from "../../store/viewContext";
+
 
 function Posts() {
-  const Navigate=useNavigate()
+ 
   const { firebase } = useContext(FirebaseContext);
   const [products, setProducts] = useState([]);
-  const {setViewDetails} =useContext(viewContext)
+  const {setViewDetails} =useContext(ViewContext)
+  const Navigate=useNavigate()
   useEffect(() => {
     firebase
       .firestore()
@@ -26,7 +28,7 @@ function Posts() {
 
         setProducts(allPost);
       });
-  }, []);
+  });
   return (
     <div className="postParentDiv">
       <div className="moreView">
@@ -42,7 +44,6 @@ function Posts() {
               </div>
               <div className="image" >
                 <img src={product.url} alt="" onClick={()=>{
-
                   setViewDetails(product)
                     Navigate('/ViewPost')}
                 }

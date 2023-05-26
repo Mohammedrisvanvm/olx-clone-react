@@ -1,9 +1,9 @@
-import { createContext, useState} from "react";
+import { createContext, useState } from "react";
 
 export const ViewContext = createContext(null);
 
 function Post({ children }) {
-    const [viewDetails, setViewDetails] = useState();
+  const [viewDetails, setViewDetails] = useState(null);
   return (
     <ViewContext.Provider value={{ viewDetails, setViewDetails }}>
       {children}
